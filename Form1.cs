@@ -17,7 +17,7 @@ namespace TaskManager
         public BindingList<ProcessForDisplay> ProcessForDisplayList
         {
             get { return _processForDisplayList; }
-            set 
+            set
             {
                 _processForDisplayList = value;
                 OnPropertyChanged();
@@ -31,6 +31,7 @@ namespace TaskManager
 
         private void TaskManager_Load(object sender, EventArgs e)
         {
+            toolStripButton1.Enabled = false;
             gettingProcesses = new Thread(() =>
             {
                 //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
@@ -67,6 +68,8 @@ namespace TaskManager
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            toolStripButton1.Enabled = false;
+            toolStripButton2.Enabled = true;
             isRunning = true;
             if (!gettingProcesses.IsAlive)
             {
@@ -121,8 +124,37 @@ namespace TaskManager
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+            toolStripButton1.Enabled = true;
+            toolStripButton2.Enabled = false;
             isRunning = false;
         }
 
+        //метод для изменения функционала ПКМ
+        private void dataGridView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dataGridView1.HitTest(e.X, e.Y);
+                if (hit.RowIndex >= 0)
+                {
+                    dataGridView1.ClearSelection();
+                    dataGridView1.Rows[hit.RowIndex].Selected = true;
+                    contextMenuStrip1.Show(dataGridView1, e.Location);
+                    dataGridView1.CurrentCell = dataGridView1.Rows[hit.RowIndex].Cells[0];
+                }
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isRunning=false;
+            e.Cancel = false;
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isRunning = false;
+            Application.Exit();
+        }
     }
 }

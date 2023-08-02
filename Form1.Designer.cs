@@ -42,17 +42,17 @@
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             memoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            processForDisplayBindingSource = new BindingSource(components);
-            label1 = new Label();
-            label2 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             подробнееToolStripMenuItem = new ToolStripMenuItem();
             завершитьПроцессToolStripMenuItem = new ToolStripMenuItem();
+            processForDisplayBindingSource = new BindingSource(components);
+            label1 = new Label();
+            label2 = new Label();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)processForDisplayBindingSource).BeginInit();
             contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)processForDisplayBindingSource).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -75,8 +75,9 @@
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(109, 22);
+            выходToolStripMenuItem.Size = new Size(180, 22);
             выходToolStripMenuItem.Text = "Выход";
+            выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
             // toolStrip1
             // 
@@ -124,6 +125,7 @@
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, memoryDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn });
+            dataGridView1.ContextMenuStrip = contextMenuStrip1;
             dataGridView1.DataSource = processForDisplayBindingSource;
             dataGridView1.Location = new Point(0, 52);
             dataGridView1.MultiSelect = false;
@@ -133,6 +135,7 @@
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(800, 354);
             dataGridView1.TabIndex = 2;
+            dataGridView1.MouseDown += dataGridView1_MouseDown;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -162,6 +165,25 @@
             statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
             statusDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { подробнееToolStripMenuItem, завершитьПроцессToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(185, 48);
+            // 
+            // подробнееToolStripMenuItem
+            // 
+            подробнееToolStripMenuItem.Name = "подробнееToolStripMenuItem";
+            подробнееToolStripMenuItem.Size = new Size(184, 22);
+            подробнееToolStripMenuItem.Text = "Подробно";
+            подробнееToolStripMenuItem.Click += подробнееToolStripMenuItem_Click;
+            // 
+            // завершитьПроцессToolStripMenuItem
+            // 
+            завершитьПроцессToolStripMenuItem.Name = "завершитьПроцессToolStripMenuItem";
+            завершитьПроцессToolStripMenuItem.Size = new Size(184, 22);
+            завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
+            // 
             // processForDisplayBindingSource
             // 
             processForDisplayBindingSource.DataSource = typeof(Models.ProcessForDisplay);
@@ -186,25 +208,6 @@
             label2.Text = "notCalculated";
             label2.Click += label2_Click;
             // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { подробнееToolStripMenuItem, завершитьПроцессToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(185, 48);
-            // 
-            // подробнееToolStripMenuItem
-            // 
-            подробнееToolStripMenuItem.Name = "подробнееToolStripMenuItem";
-            подробнееToolStripMenuItem.Size = new Size(184, 22);
-            подробнееToolStripMenuItem.Text = "Подробно";
-            подробнееToolStripMenuItem.Click += подробнееToolStripMenuItem_Click;
-            // 
-            // завершитьПроцессToolStripMenuItem
-            // 
-            завершитьПроцессToolStripMenuItem.Name = "завершитьПроцессToolStripMenuItem";
-            завершитьПроцессToolStripMenuItem.Size = new Size(184, 22);
-            завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
-            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -220,14 +223,15 @@
             MinimumSize = new Size(600, 400);
             Name = "TaskManager";
             Text = "TaskManager";
+            FormClosing += Form1_FormClosing;
             Load += TaskManager_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)processForDisplayBindingSource).EndInit();
             contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)processForDisplayBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -246,10 +250,10 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem подробнееToolStripMenuItem;
         private ToolStripMenuItem завершитьПроцессToolStripMenuItem;
+        private BindingSource processForDisplayBindingSource;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn memoryDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
-        private BindingSource processForDisplayBindingSource;
     }
 }
