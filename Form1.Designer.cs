@@ -42,6 +42,10 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             подробнееToolStripMenuItem = new ToolStripMenuItem();
             завершитьПроцессToolStripMenuItem = new ToolStripMenuItem();
+            ColumnID = new DataGridViewTextBoxColumn();
+            ColumnName = new DataGridViewTextBoxColumn();
+            ColumnMemory = new DataGridViewTextBoxColumn();
+            ColumnStatus = new DataGridViewTextBoxColumn();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -101,11 +105,15 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnID, ColumnName, ColumnMemory, ColumnStatus });
             dataGridView1.Location = new Point(0, 52);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(800, 354);
             dataGridView1.TabIndex = 2;
@@ -149,6 +157,30 @@
             завершитьПроцессToolStripMenuItem.Size = new Size(232, 22);
             завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
             // 
+            // ColumnID
+            // 
+            ColumnID.HeaderText = "ID";
+            ColumnID.Name = "ColumnID";
+            ColumnID.ReadOnly = true;
+            // 
+            // ColumnName
+            // 
+            ColumnName.HeaderText = "Name";
+            ColumnName.Name = "ColumnName";
+            ColumnName.ReadOnly = true;
+            // 
+            // ColumnMemory
+            // 
+            ColumnMemory.HeaderText = "Memory, MB";
+            ColumnMemory.Name = "ColumnMemory";
+            ColumnMemory.ReadOnly = true;
+            // 
+            // ColumnStatus
+            // 
+            ColumnStatus.HeaderText = "Status";
+            ColumnStatus.Name = "ColumnStatus";
+            ColumnStatus.ReadOnly = true;
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -188,5 +220,9 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem подробнееToolStripMenuItem;
         private ToolStripMenuItem завершитьПроцессToolStripMenuItem;
+        private DataGridViewTextBoxColumn ColumnID;
+        private DataGridViewTextBoxColumn ColumnName;
+        private DataGridViewTextBoxColumn ColumnMemory;
+        private DataGridViewTextBoxColumn ColumnStatus;
     }
 }
