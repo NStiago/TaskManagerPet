@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskManager));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
             выходToolStripMenuItem = new ToolStripMenuItem();
@@ -37,15 +38,15 @@
             toolStripButton1 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
             dataGridView1 = new DataGridView();
+            ColumnID = new DataGridViewTextBoxColumn();
+            ColumnName = new DataGridViewTextBoxColumn();
+            ColumnMemory = new DataGridViewTextBoxColumn();
+            ColumnStatus = new DataGridViewTextBoxColumn();
             label1 = new Label();
             label2 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             подробнееToolStripMenuItem = new ToolStripMenuItem();
             завершитьПроцессToolStripMenuItem = new ToolStripMenuItem();
-            ColumnID = new DataGridViewTextBoxColumn();
-            ColumnName = new DataGridViewTextBoxColumn();
-            ColumnMemory = new DataGridViewTextBoxColumn();
-            ColumnStatus = new DataGridViewTextBoxColumn();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -109,6 +110,14 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(109, 122, 224);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnID, ColumnName, ColumnMemory, ColumnStatus });
             dataGridView1.Location = new Point(0, 52);
@@ -117,6 +126,30 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(800, 354);
             dataGridView1.TabIndex = 2;
+            // 
+            // ColumnID
+            // 
+            ColumnID.HeaderText = "ID";
+            ColumnID.Name = "ColumnID";
+            ColumnID.ReadOnly = true;
+            // 
+            // ColumnName
+            // 
+            ColumnName.HeaderText = "Name";
+            ColumnName.Name = "ColumnName";
+            ColumnName.ReadOnly = true;
+            // 
+            // ColumnMemory
+            // 
+            ColumnMemory.HeaderText = "Memory, MB";
+            ColumnMemory.Name = "ColumnMemory";
+            ColumnMemory.ReadOnly = true;
+            // 
+            // ColumnStatus
+            // 
+            ColumnStatus.HeaderText = "Status";
+            ColumnStatus.Name = "ColumnStatus";
+            ColumnStatus.ReadOnly = true;
             // 
             // label1
             // 
@@ -154,32 +187,8 @@
             // завершитьПроцессToolStripMenuItem
             // 
             завершитьПроцессToolStripMenuItem.Name = "завершитьПроцессToolStripMenuItem";
-            завершитьПроцессToolStripMenuItem.Size = new Size(232, 22);
+            завершитьПроцессToolStripMenuItem.Size = new Size(184, 22);
             завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
-            // 
-            // ColumnID
-            // 
-            ColumnID.HeaderText = "ID";
-            ColumnID.Name = "ColumnID";
-            ColumnID.ReadOnly = true;
-            // 
-            // ColumnName
-            // 
-            ColumnName.HeaderText = "Name";
-            ColumnName.Name = "ColumnName";
-            ColumnName.ReadOnly = true;
-            // 
-            // ColumnMemory
-            // 
-            ColumnMemory.HeaderText = "Memory, MB";
-            ColumnMemory.Name = "ColumnMemory";
-            ColumnMemory.ReadOnly = true;
-            // 
-            // ColumnStatus
-            // 
-            ColumnStatus.HeaderText = "Status";
-            ColumnStatus.Name = "ColumnStatus";
-            ColumnStatus.ReadOnly = true;
             // 
             // TaskManager
             // 
@@ -196,6 +205,7 @@
             MinimumSize = new Size(600, 400);
             Name = "TaskManager";
             Text = "TaskManager";
+            Load += TaskManager_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             toolStrip1.ResumeLayout(false);
