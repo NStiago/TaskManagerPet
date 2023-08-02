@@ -22,7 +22,7 @@ namespace TaskManager
             }
         }
 
-        //bool isRunning = true;
+        bool isRunning = true;
         Thread? gettingProcesses;
 
         //1. Класс коллекции 2. Привязка количества процессов 3. Фоновфй процесс
@@ -32,15 +32,39 @@ namespace TaskManager
         {
             InitializeComponent();
             dataGridView1.DataBindings.Add("DataSource", this, nameof(ProcessForDisplayList));
-            
+
             //label2.DataBindings.Add("Text", CountOfProcesses, null); 
         }
 
         private void TaskManager_Load(object sender, EventArgs e)
         {
-                        processList = Process.GetProcesses().ToList();
-                        ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
-                        
+            gettingProcesses = new Thread(() =>
+            {
+                //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
+                int positionIndex = 0;
+                int selectedPositionIndex = 0;
+                while (isRunning)
+                {
+                    if (dataGridView1.FirstDisplayedScrollingRowIndex != -1)
+                        positionIndex = dataGridView1.FirstDisplayedScrollingRowIndex;
+                    if (dataGridView1.CurrentCell != null)
+                        selectedPositionIndex = dataGridView1.CurrentCell.RowIndex;
+
+                    BeginInvoke(new Action(() =>
+                    {
+                        lock (processList)
+                        {
+                            processList = Process.GetProcesses().ToList();
+                            ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
+                        }
+                        dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
+                        dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
+                    }));
+                    Thread.Sleep(500);
+                }
+            });
+            gettingProcesses.Start();
+
 
 
             //dataGridView1.DataSource = processForDisplayList;
@@ -54,7 +78,37 @@ namespace TaskManager
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            isRunning = true;
+            if (!gettingProcesses.IsAlive)
+            {
+                gettingProcesses = new Thread(() =>
+                 {
+                     //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
+                     int positionIndex = 0;
+                     int selectedPositionIndex = 0;
+                     while (isRunning)
+                     {
+                         if (dataGridView1.FirstDisplayedScrollingRowIndex != -1)
+                             positionIndex = dataGridView1.FirstDisplayedScrollingRowIndex;
+                         if (dataGridView1.CurrentCell != null)
+                             selectedPositionIndex = dataGridView1.CurrentCell.RowIndex;
 
+                         BeginInvoke(new Action(() =>
+                         {
+                             lock (processList)
+                             {
+                                 processList = Process.GetProcesses().ToList();
+                                 ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
+                             }
+                             dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
+                             dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
+                         }));
+                         Thread.Sleep(500);
+                     }
+                 });
+            }
+            gettingProcesses.IsBackground = true;
+            gettingProcesses.Start();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -71,13 +125,15 @@ namespace TaskManager
         {
 
         }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-
-        }
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            isRunning = false;
+        }
+
+
     }
 }

@@ -48,7 +48,6 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             подробнееToolStripMenuItem = new ToolStripMenuItem();
             завершитьПроцессToolStripMenuItem = new ToolStripMenuItem();
-            toolStripButton3 = new ToolStripButton();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -81,7 +80,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2, toolStripButton3 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2 });
             toolStrip1.Location = new Point(0, 24);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -106,6 +105,7 @@
             toolStripButton2.Name = "toolStripButton2";
             toolStripButton2.Size = new Size(96, 22);
             toolStripButton2.Text = "Приостановить";
+            toolStripButton2.Click += toolStripButton2_Click;
             // 
             // dataGridView1
             // 
@@ -126,9 +126,11 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, memoryDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn });
             dataGridView1.DataSource = processForDisplayBindingSource;
             dataGridView1.Location = new Point(0, 52);
+            dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(800, 354);
             dataGridView1.TabIndex = 2;
             // 
@@ -203,16 +205,6 @@
             завершитьПроцессToolStripMenuItem.Size = new Size(184, 22);
             завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
             // 
-            // toolStripButton3
-            // 
-            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripButton3.Image = (Image)resources.GetObject("toolStripButton3.Image");
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(128, 22);
-            toolStripButton3.Text = "Обновить(временно)";
-            toolStripButton3.Click += toolStripButton3_Click;
-            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -259,6 +251,5 @@
         private DataGridViewTextBoxColumn memoryDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
         private BindingSource processForDisplayBindingSource;
-        private ToolStripButton toolStripButton3;
     }
 }
