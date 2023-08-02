@@ -3,24 +3,67 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TaskManager.Models
 {
-    public class ProcessForDisplay
+    public class ProcessForDisplay:INotifyPropertyChanged
     {
+
+        private int _id;
+        private string _name;
+        private double _memory;
+        private string _status;
+
+
+
+
+        public int Id 
+        { 
+            get =>_id;
+            set 
+            { 
+                _id = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Name 
+        { 
+            get=>_name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        public double Memory 
+        { 
+            get=>_memory;
+            set
+            {
+                _memory = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Status 
+        { 
+            get=>_status;
+            set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ProcessForDisplay(int id, string name, double memory, bool status)
         {
-            Id= id;
-            Name= name;
-            Memory= memory;
+            Id = id;
+            Name = name;
+            Memory = memory;
             Status = status == true ? "Responding" : "Not responding";
         }
-        public int Id { get; set; }
-        public string Name { get; set; }=string.Empty;
-        public double Memory { get; set; }
-        public string Status { get; set; } = string.Empty;
 
         public static BindingList<ProcessForDisplay> GetProcessForDisplays(List<Process> processList)
         {
@@ -31,5 +74,11 @@ namespace TaskManager.Models
             }
             return processForDisplayList;
         }
+        
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     }
 }
