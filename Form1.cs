@@ -12,28 +12,21 @@ namespace TaskManager
     {
         List<Process> processList = new List<Process>();
         BindingList<ProcessForDisplay> _processForDisplayList = new BindingList<ProcessForDisplay>();
+        bool isRunning = true;
+        Thread? gettingProcesses;
         public BindingList<ProcessForDisplay> ProcessForDisplayList
         {
             get { return _processForDisplayList; }
-            set
+            set 
             {
                 _processForDisplayList = value;
                 OnPropertyChanged();
             }
         }
-
-        bool isRunning = true;
-        Thread? gettingProcesses;
-
-        //1. Класс коллекции 2. Привязка количества процессов 3. Фоновфй процесс
-
-
         public TaskManager()
         {
             InitializeComponent();
             dataGridView1.DataBindings.Add("DataSource", this, nameof(ProcessForDisplayList));
-
-            //label2.DataBindings.Add("Text", CountOfProcesses, null); 
         }
 
         private void TaskManager_Load(object sender, EventArgs e)
@@ -56,6 +49,7 @@ namespace TaskManager
                         {
                             processList = Process.GetProcesses().ToList();
                             ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
+                            label2.Text = ProcessForDisplayList.Count.ToString();
                         }
                         dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
                         dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
@@ -64,11 +58,6 @@ namespace TaskManager
                 }
             });
             gettingProcesses.Start();
-
-
-
-            //dataGridView1.DataSource = processForDisplayList;
-            //label2.Text = processForDisplayList.Count.ToString();
         }
 
         private void файлToolStripMenuItem_Click(object sender, EventArgs e)
@@ -99,6 +88,7 @@ namespace TaskManager
                              {
                                  processList = Process.GetProcesses().ToList();
                                  ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
+                                 label2.Text = ProcessForDisplayList.Count.ToString();
                              }
                              dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
                              dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
@@ -133,7 +123,6 @@ namespace TaskManager
         {
             isRunning = false;
         }
-
 
     }
 }
