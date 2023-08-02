@@ -75,7 +75,7 @@
             // выходToolStripMenuItem
             // 
             выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            выходToolStripMenuItem.Size = new Size(180, 22);
+            выходToolStripMenuItem.Size = new Size(109, 22);
             выходToolStripMenuItem.Text = "Выход";
             выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
@@ -116,7 +116,7 @@
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(109, 122, 224);
+            dataGridViewCellStyle1.BackColor = Color.Black;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             dataGridViewCellStyle1.ForeColor = Color.White;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
@@ -176,13 +176,14 @@
             подробнееToolStripMenuItem.Name = "подробнееToolStripMenuItem";
             подробнееToolStripMenuItem.Size = new Size(184, 22);
             подробнееToolStripMenuItem.Text = "Подробно";
-            подробнееToolStripMenuItem.Click += подробнееToolStripMenuItem_Click;
+            подробнееToolStripMenuItem.Click += InfoToolStripMenuItem_Click;
             // 
             // завершитьПроцессToolStripMenuItem
             // 
             завершитьПроцессToolStripMenuItem.Name = "завершитьПроцессToolStripMenuItem";
             завершитьПроцессToolStripMenuItem.Size = new Size(184, 22);
             завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
+            завершитьПроцессToolStripMenuItem.Click += KillToolStripMenuItem_Click;
             // 
             // processForDisplayBindingSource
             // 

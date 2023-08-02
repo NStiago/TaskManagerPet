@@ -17,9 +17,6 @@ namespace TaskManager.Models
         private double _memory;
         private string _status;
 
-
-
-
         public int Id 
         { 
             get =>_id;

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Runtime.CompilerServices;
 using System.Security;
+using System.Text;
 using TaskManager.Models;
 
 namespace TaskManager
@@ -109,9 +110,22 @@ namespace TaskManager
 
         }
 
-        private void подробнееToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(GetInformation());
+        }
 
+        private void KillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView1.SelectedCells != null)
+                {
+                    Process processToKill = processList.Where(x => x.Id.ToString() == dataGridView1.CurrentRow.Cells[0].Value.ToString()).ToList().FirstOrDefault();
+                    KillProcess(processToKill);
+                }
+            }
+            catch (Exception) { MessageBox.Show("Недостаточно прав для закрытия процесса!"); }
         }
 
         private void bindingSource1_CurrentChanged(object sender, EventArgs e)
@@ -147,7 +161,7 @@ namespace TaskManager
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            isRunning=false;
+            isRunning = false;
             e.Cancel = false;
         }
 
@@ -156,5 +170,43 @@ namespace TaskManager
             isRunning = false;
             Application.Exit();
         }
+
+        private string GetInformation()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (dataGridView1.SelectedCells != null)
+            {
+                string processId;
+                string processName;
+                string processResponding;
+                string processStartTime;
+                string processHandle;
+                string processPath;
+
+                Process process = processList.Where(x => x.Id.ToString() == dataGridView1.CurrentRow.Cells[0].Value.ToString()).ToList().FirstOrDefault();
+                try { processId = process.Id.ToString(); } catch (Exception) { processId = "Отказано в доступе"; }
+                try { processName = process.ProcessName.ToString(); } catch (Exception) { processName = "Отказано в доступе"; }
+                try { processResponding = process.Responding == true ? "Состояние: в работе\n" : "Состояние: не отвечает\n"; } catch (Exception) { processResponding = "Отказано в доступе\n"; }
+                try { processStartTime = process.StartTime.ToString(); } catch (Exception) { processStartTime = "Отказано в доступе"; }
+                try { processHandle = process.Handle.ToString(); } catch (Exception) { processHandle = "Отказано в доступе"; }
+                try { processPath = process.MainModule.FileName.ToString(); } catch (Exception) { processPath = "Отказано в доступе"; }
+
+                sb.Append($"ID процесса: " + processId + "\n");
+                sb.Append($"Название процесса: " + processName + "\n");
+                sb.Append(processResponding);
+                sb.Append($"Время запуска: " + processStartTime + "\n");
+                sb.Append($"Handle: " + processHandle + "\n");
+                sb.Append($"Путь: " + processPath + "\n");
+            }
+            return sb.ToString();
+        }
+
+        private void KillProcess(Process process)
+        {
+            process.Kill();
+            process.WaitForExit();
+        }
+
     }
 }
