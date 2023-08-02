@@ -38,19 +38,21 @@
             toolStripButton1 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
             dataGridView1 = new DataGridView();
-            ColumnID = new DataGridViewTextBoxColumn();
-            ColumnName = new DataGridViewTextBoxColumn();
-            ColumnMemory = new DataGridViewTextBoxColumn();
-            ColumnStatus = new DataGridViewTextBoxColumn();
             label1 = new Label();
             label2 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             подробнееToolStripMenuItem = new ToolStripMenuItem();
             завершитьПроцессToolStripMenuItem = new ToolStripMenuItem();
+            processForDisplayBindingSource = new BindingSource(components);
+            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            memoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)processForDisplayBindingSource).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -109,6 +111,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(109, 122, 224);
@@ -119,37 +122,14 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnID, ColumnName, ColumnMemory, ColumnStatus });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, memoryDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn });
+            dataGridView1.DataSource = processForDisplayBindingSource;
             dataGridView1.Location = new Point(0, 52);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(800, 354);
             dataGridView1.TabIndex = 2;
-            // 
-            // ColumnID
-            // 
-            ColumnID.HeaderText = "ID";
-            ColumnID.Name = "ColumnID";
-            ColumnID.ReadOnly = true;
-            // 
-            // ColumnName
-            // 
-            ColumnName.HeaderText = "Name";
-            ColumnName.Name = "ColumnName";
-            ColumnName.ReadOnly = true;
-            // 
-            // ColumnMemory
-            // 
-            ColumnMemory.HeaderText = "Memory, MB";
-            ColumnMemory.Name = "ColumnMemory";
-            ColumnMemory.ReadOnly = true;
-            // 
-            // ColumnStatus
-            // 
-            ColumnStatus.HeaderText = "Status";
-            ColumnStatus.Name = "ColumnStatus";
-            ColumnStatus.ReadOnly = true;
             // 
             // label1
             // 
@@ -190,6 +170,38 @@
             завершитьПроцессToolStripMenuItem.Size = new Size(184, 22);
             завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
             // 
+            // processForDisplayBindingSource
+            // 
+            processForDisplayBindingSource.DataSource = typeof(Models.ProcessForDisplay);
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn.HeaderText = "ID";
+            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            idDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // memoryDataGridViewTextBoxColumn
+            // 
+            memoryDataGridViewTextBoxColumn.DataPropertyName = "Memory";
+            memoryDataGridViewTextBoxColumn.HeaderText = "Memory, MB";
+            memoryDataGridViewTextBoxColumn.Name = "memoryDataGridViewTextBoxColumn";
+            memoryDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // statusDataGridViewTextBoxColumn
+            // 
+            statusDataGridViewTextBoxColumn.DataPropertyName = "Status";
+            statusDataGridViewTextBoxColumn.HeaderText = "Status";
+            statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
+            statusDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -212,6 +224,7 @@
             toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)processForDisplayBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -230,9 +243,10 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem подробнееToolStripMenuItem;
         private ToolStripMenuItem завершитьПроцессToolStripMenuItem;
-        private DataGridViewTextBoxColumn ColumnID;
-        private DataGridViewTextBoxColumn ColumnName;
-        private DataGridViewTextBoxColumn ColumnMemory;
-        private DataGridViewTextBoxColumn ColumnStatus;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn memoryDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
+        private BindingSource processForDisplayBindingSource;
     }
 }
