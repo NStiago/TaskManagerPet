@@ -21,5 +21,10 @@ namespace TaskManager
         {
 
         }
+
+        private void ïîäğîáíååToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

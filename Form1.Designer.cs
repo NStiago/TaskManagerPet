@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskManager));
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
@@ -38,9 +39,13 @@
             dataGridView1 = new DataGridView();
             label1 = new Label();
             label2 = new Label();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            подробнееToolStripMenuItem = new ToolStripMenuItem();
+            завершитьПроцессToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -125,6 +130,25 @@
             label2.Text = "notCalculated";
             label2.Click += label2_Click;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { подробнееToolStripMenuItem, завершитьПроцессToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(185, 48);
+            // 
+            // подробнееToolStripMenuItem
+            // 
+            подробнееToolStripMenuItem.Name = "подробнееToolStripMenuItem";
+            подробнееToolStripMenuItem.Size = new Size(184, 22);
+            подробнееToolStripMenuItem.Text = "Подробно";
+            подробнееToolStripMenuItem.Click += подробнееToolStripMenuItem_Click;
+            // 
+            // завершитьПроцессToolStripMenuItem
+            // 
+            завершитьПроцессToolStripMenuItem.Name = "завершитьПроцессToolStripMenuItem";
+            завершитьПроцессToolStripMenuItem.Size = new Size(232, 22);
+            завершитьПроцессToolStripMenuItem.Text = "Завершить процесс";
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -145,6 +169,7 @@
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -160,5 +185,8 @@
         private DataGridView dataGridView1;
         private Label label1;
         private Label label2;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem подробнееToolStripMenuItem;
+        private ToolStripMenuItem завершитьПроцессToolStripMenuItem;
     }
 }
