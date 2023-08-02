@@ -67,7 +67,11 @@ namespace TaskManager.Models
             BindingList<ProcessForDisplay> processForDisplayList = new BindingList<ProcessForDisplay>();
             foreach (var process in processList)
             {
-                processForDisplayList.Add(new ProcessForDisplay(process.Id, process.ProcessName, process.WorkingSet64, process.Responding));
+                processForDisplayList.Add(new ProcessForDisplay(
+                    process.Id, 
+                    process.ProcessName, 
+                    Math.Round(Convert.ToDouble(process.WorkingSet64)/(1024*1024),2), 
+                    process.Responding));
             }
             return processForDisplayList;
         }
