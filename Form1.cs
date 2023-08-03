@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
@@ -15,6 +16,7 @@ namespace TaskManager
         BindingList<ProcessForDisplay> _processForDisplayList = new BindingList<ProcessForDisplay>();
         bool isRunning = true;
         Thread? gettingProcesses;
+        //Делегат для кастомной сортировки (в зависимости от индекса колонки, вызывается необходимый метод)
         public BindingList<ProcessForDisplay> ProcessForDisplayList
         {
             get { return _processForDisplayList; }
@@ -27,39 +29,46 @@ namespace TaskManager
         public TaskManager()
         {
             InitializeComponent();
-            dataGridView1.DataBindings.Add("DataSource", this, nameof(ProcessForDisplayList));
+            //dataGridView1.DataBindings.Add("DataSource", this, nameof(ProcessForDisplayList));
         }
 
         private void TaskManager_Load(object sender, EventArgs e)
         {
             toolStripButton1.Enabled = false;
-            gettingProcesses = new Thread(() =>
-            {
-                //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
-                int positionIndex = 0;
-                int selectedPositionIndex = 0;
-                while (isRunning)
-                {
-                    if (dataGridView1.FirstDisplayedScrollingRowIndex != -1)
-                        positionIndex = dataGridView1.FirstDisplayedScrollingRowIndex;
-                    if (dataGridView1.CurrentCell != null)
-                        selectedPositionIndex = dataGridView1.CurrentCell.RowIndex;
+            processList = Process.GetProcesses().ToList();
+            dataGridView1.DataSource = SourceDataTable.GetSourceTable(processList);
 
-                    BeginInvoke(new Action(() =>
-                    {
-                        lock (processList)
-                        {
-                            processList = Process.GetProcesses().ToList();
-                            ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
-                            label2.Text = ProcessForDisplayList.Count.ToString();
-                        }
-                        dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
-                        dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
-                    }));
-                    Thread.Sleep(500);
-                }
-            });
-            gettingProcesses.Start();
+
+
+
+            //gettingProcesses = new Thread(() =>
+            //{
+            //    //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
+            //    int positionIndex = 0;
+            //    int selectedPositionIndex = 0;
+            //    while (isRunning)
+            //    {
+            //        if (dataGridView1.FirstDisplayedScrollingRowIndex != -1)
+            //            positionIndex = dataGridView1.FirstDisplayedScrollingRowIndex;
+            //        if (dataGridView1.CurrentCell != null)
+            //            selectedPositionIndex = dataGridView1.CurrentCell.RowIndex;
+
+            //        BeginInvoke(new Action(() =>
+            //        {
+            //            lock (processList)
+            //            {
+            //                processList = Process.GetProcesses().ToList();
+            //                ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
+            //                label2.Text = ProcessForDisplayList.Count.ToString();
+            //            }
+            //            dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
+            //            dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
+            //        }));
+            //        //убрать костыль
+            //        Thread.Sleep(500);
+            //    }
+            //});
+            //gettingProcesses.Start();
         }
 
         private void файлToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,37 +81,38 @@ namespace TaskManager
             toolStripButton1.Enabled = false;
             toolStripButton2.Enabled = true;
             isRunning = true;
-            if (!gettingProcesses.IsAlive)
-            {
-                gettingProcesses = new Thread(() =>
-                 {
-                     //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
-                     int positionIndex = 0;
-                     int selectedPositionIndex = 0;
-                     while (isRunning)
-                     {
-                         if (dataGridView1.FirstDisplayedScrollingRowIndex != -1)
-                             positionIndex = dataGridView1.FirstDisplayedScrollingRowIndex;
-                         if (dataGridView1.CurrentCell != null)
-                             selectedPositionIndex = dataGridView1.CurrentCell.RowIndex;
+            //if (!gettingProcesses.IsAlive)
+            //{
+            //    gettingProcesses = new Thread(() =>
+            //     {
+            //         //positionIndex и selectedPositionIndex - для запоминания выделенной строки и позиции скрола
+            //         int positionIndex = 0;
+            //         int selectedPositionIndex = 0;
+            //         while (isRunning)
+            //         {
+            //             if (dataGridView1.FirstDisplayedScrollingRowIndex != -1)
+            //                 positionIndex = dataGridView1.FirstDisplayedScrollingRowIndex;
+            //             if (dataGridView1.CurrentCell != null)
+            //                 selectedPositionIndex = dataGridView1.CurrentCell.RowIndex;
 
-                         BeginInvoke(new Action(() =>
-                         {
-                             lock (processList)
-                             {
-                                 processList = Process.GetProcesses().ToList();
-                                 ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
-                                 label2.Text = ProcessForDisplayList.Count.ToString();
-                             }
-                             dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
-                             dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
-                         }));
-                         Thread.Sleep(500);
-                     }
-                 });
-            }
-            gettingProcesses.IsBackground = true;
-            gettingProcesses.Start();
+            //             BeginInvoke(new Action(() =>
+            //             {
+            //                 lock (processList)
+            //                 {
+            //                     processList = Process.GetProcesses().ToList();
+            //                     ProcessForDisplayList = ProcessForDisplay.GetProcessForDisplays(processList);
+            //                     label2.Text = ProcessForDisplayList.Count.ToString();
+            //                 }
+            //                 dataGridView1.CurrentCell = dataGridView1.Rows[selectedPositionIndex].Cells[0];
+            //                 dataGridView1.FirstDisplayedScrollingRowIndex = positionIndex;
+            //             }));
+            //             //убрать костыль
+            //             Thread.Sleep(500);
+            //         }
+            //     });
+            //}
+            //gettingProcesses.IsBackground = true;
+            //gettingProcesses.Start();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -207,6 +217,9 @@ namespace TaskManager
             process.Kill();
             process.WaitForExit();
         }
+
+       
+        
 
     }
 }
