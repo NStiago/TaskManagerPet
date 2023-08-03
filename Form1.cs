@@ -14,29 +14,34 @@ namespace TaskManager
     {
         List<Process> processList = new List<Process>();
         BindingList<ProcessForDisplay> _processForDisplayList = new BindingList<ProcessForDisplay>();
+        DataTable _sourceDataTable;
+
         bool isRunning = true;
         Thread? gettingProcesses;
         //Делегат для кастомной сортировки (в зависимости от индекса колонки, вызывается необходимый метод)
         public BindingList<ProcessForDisplay> ProcessForDisplayList
         {
             get { return _processForDisplayList; }
-            set
-            {
-                _processForDisplayList = value;
-                OnPropertyChanged();
-            }
+            set {_processForDisplayList = value;OnPropertyChanged();}
+        }
+        public DataTable SourceDataTable
+        {
+            get { return _sourceDataTable; }
+            set { _sourceDataTable = value; OnPropertyChanged();}
         }
         public TaskManager()
         {
             InitializeComponent();
             //dataGridView1.DataBindings.Add("DataSource", this, nameof(ProcessForDisplayList));
+            dataGridView1.DataBindings.Add("DataSource",this,nameof(SourceDataTable));
         }
 
         private void TaskManager_Load(object sender, EventArgs e)
         {
             toolStripButton1.Enabled = false;
             processList = Process.GetProcesses().ToList();
-            dataGridView1.DataSource = SourceDataTable.GetSourceTable(processList);
+            SourceDataTable=new SourceDataTable(processList).Table;
+
 
 
 

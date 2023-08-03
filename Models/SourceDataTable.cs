@@ -1,34 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TaskManager.Models
 {
-    public class SourceDataTable
+    public class SourceDataTable : INotifyPropertyChanged
     {
-        public static DataTable GetSourceTable(List<Process> processList)
+        private DataTable _table;
+        public DataTable Table { 
+            get 
+            { 
+                return _table;
+            }
+            set 
+            { 
+                _table = value;
+                OnPropertyChanged();
+            }
+        }
+        public SourceDataTable(List<Process> processList)
         {
-            DataTable table = new DataTable("Список процессов");
-            
-            table.Columns.Add("ID", typeof(int));
-            table.Columns.Add("Name", typeof(string));
-            table.Columns.Add("Memory", typeof(double));
-            table.Columns.Add("Status", typeof(string));
+            Table = new DataTable();
+            Table.Columns.Add("ID", typeof(int));
+            Table.Columns.Add("Name", typeof(string));
+            Table.Columns.Add("Memory", typeof(double));
+            Table.Columns.Add("Status", typeof(string));
 
             foreach (Process process in processList)
             {
-                table.Rows.Add(
+                Table.Rows.Add(
                     process.Id,
                     process.ProcessName,
                     Math.Round(Convert.ToDouble(process.WorkingSet64) / (1024 * 1024), 2),
-                    process.Responding);
+                    process.Responding == true ? "Responding" : "Not responding");
             }
-            return table;
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+
 }
